@@ -118,6 +118,43 @@ or load the GPKG into QGIS:
 katastar_output/sesvetski_kraljevec_700_800_google_maps_description.gpkg
 ```
 
+## Listing Match: Sesvetski Kraljevec 695-710 m2 House-Only
+
+Run the listing-focused anti-scam helper:
+
+```bash
+python katastar_listing_match_695_710_house_only.py
+```
+
+This script is tuned for a real-estate listing claiming:
+
+* 705 m2 parcel
+* 364 m2 house
+* 82 m2 auxiliary building
+* 441 m2 yard
+* k.o. Sesvetski Kraljevec
+
+It searches parcels from 695-710 m2 so candidates are not missed because official cadastral area and geometry-calculated area can differ. It then keeps only parcels with meaningful building/object overlap, adds Google Maps links and DKP-derived description data, and ranks candidates with `listing_match_score` and `listing_match_reasons`.
+
+The default precision filter is strict. It prefers parcels that match the ad's cadastral shape:
+
+* about 705 m2 parcel area
+* about 441 m2 yard / `DVORIŠTE`
+* about 182 m2 house footprint, assuming the advertised 364 m2 house is split across two floors
+* about 82 m2 auxiliary building footprint
+* exactly one house-like building and one auxiliary building when DKP classifies them that way
+
+The CSV uses semicolon separators and URL-encoded Google Maps coordinates so it opens more reliably in Croatian/European spreadsheet settings.
+
+Outputs:
+
+```text
+katastar_output/listing_candidates_sesvetski_kraljevec_695_710_house_only.csv
+katastar_output/listing_candidates_sesvetski_kraljevec_695_710_house_only.gpkg
+```
+
+The score is only a candidate-ranking heuristic. It cannot prove ownership, sole ownership, loan eligibility, seller authorization, zoning status, or legal accuracy. Final candidates must be verified manually in OSS, zemljišna knjiga, and QGIS.
+
 ## Main Configuration
 
 Edit these variables at the top of the script:
